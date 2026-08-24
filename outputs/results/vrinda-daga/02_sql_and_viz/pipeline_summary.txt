@@ -1,0 +1,69 @@
+StackUp Engineering Academy
+Pillar 2 - Task 2.2 ETL Pipeline
+============================================================
+
+Run timestamp:
+2026-08-22 18:38:43
+
+ROW COUNTS
+------------------------------------------------------------
+Projects:
+  Before: 500
+  After:  500
+
+Employees:
+  Before: 1000
+  After:  1000
+
+Transactions:
+  Before: 50000
+  After:  50000
+
+DATA QUALITY DECISIONS
+------------------------------------------------------------
+1. Missing project budget and actual_cost values:
+   Replaced with 0.
+
+2. Invalid project dates:
+   Converted to null using pandas date parsing.
+
+3. Missing employee email values:
+   Replaced with deterministic placeholder:
+   <employee_id>@unknown.presight.ai
+
+4. Invalid employee hire dates:
+   Converted to null rather than inventing dates.
+
+5. Negative years of experience:
+   Replaced with 0.
+
+6. Self-referencing manager records:
+   manager_id replaced with null.
+
+7. Null transaction amount:
+   Original amount retained as null.
+   amount_aed converted to 0.0 for downstream aggregation.
+
+8. Null approved_by:
+   Retained as null because it represents a transaction
+   without an approver.
+   is_approved is set to False.
+
+9. Employee enrichment:
+   Current employee records are used for approver information.
+
+PERFORMANCE
+------------------------------------------------------------
+Pipeline execution time: 1.0336 seconds
+
+Target:
+Less than 30 seconds
+
+Target achieved:
+YES
+
+OUTPUT FILES
+------------------------------------------------------------
+C:\Users\vrinda.daga\projects\stackup-engineering-academy_assessment\outputs\results\vrinda-daga\02_sql_and_viz\projects_clean.csv
+C:\Users\vrinda.daga\projects\stackup-engineering-academy_assessment\outputs\results\vrinda-daga\02_sql_and_viz\employees_clean.csv
+C:\Users\vrinda.daga\projects\stackup-engineering-academy_assessment\outputs\results\vrinda-daga\02_sql_and_viz\transactions_clean.csv

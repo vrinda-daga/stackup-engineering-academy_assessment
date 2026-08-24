@@ -1,0 +1,81 @@
+Presight ETL Pipeline Report
+============================================================
+
+DAG ID:
+presight_etl_pipeline
+
+Logical date:
+2026-08-24T00:00:00+04:00
+
+Run date:
+2026-08-24
+
+RAW VS CLEAN ROW COUNTS
+------------------------------------------------------------
+Projects:
+  Raw:   500
+  Clean: 500
+
+Employees:
+  Raw:   1000
+  Clean: 1000
+
+Transactions:
+  Raw:   50000
+  Clean: 50000
+
+DATA QUALITY RESULTS
+------------------------------------------------------------
+{
+  "projects": {
+    "dataset": "projects",
+    "row_count": 500,
+    "critical_key_completeness_pct": {
+      "project_id": 100.0,
+      "project_name": 100.0
+    },
+    "duplicate_primary_keys": 0,
+    "validity": {
+      "negative_budget_count": 0,
+      "end_before_start_count": 0
+    },
+    "passed": true
+  },
+  "employees": {
+    "dataset": "employees",
+    "row_count": 1000,
+    "critical_key_completeness_pct": {
+      "employee_id": 100.0,
+      "full_name": 100.0
+    },
+    "duplicate_primary_keys": 0,
+    "validity": {
+      "negative_salary_count": 0,
+      "negative_experience_count": 5
+    },
+    "passed": true
+  },
+  "transactions": {
+    "dataset": "transactions",
+    "row_count": 50000,
+    "critical_key_completeness_pct": {
+      "transaction_id": 100.0,
+      "project_id": 100.0,
+      "amount": 98.52
+    },
+    "duplicate_primary_keys": 0,
+    "validity": {
+      "negative_amount_count": 0,
+      "missing_transaction_date_count": 0
+    },
+    "passed": true
+  }
+}
+
+FILES WRITTEN
+------------------------------------------------------------
+{
+  "projects_clean": "/opt/airflow/outputs/results/vrinda-daga/03_big_data/airflow/projects_clean.csv",
+  "employees_clean": "/opt/airflow/outputs/results/vrinda-daga/03_big_data/airflow/employees_clean.csv",
+  "transactions_clean": "/opt/airflow/outputs/results/vrinda-daga/03_big_data/airflow/transactions_clean.csv"
+}

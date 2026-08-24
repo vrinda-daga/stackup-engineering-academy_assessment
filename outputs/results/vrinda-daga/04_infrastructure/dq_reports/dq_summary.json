@@ -1,0 +1,764 @@
+{
+  "generated_at": "2026-08-24T18:02:54.224019Z",
+  "datasets": [
+    {
+      "dataset_name": "projects",
+      "checks_run": 8,
+      "checks_passed": 5,
+      "checks_failed": 3,
+      "results": {
+        "completeness": {
+          "status": "FAIL",
+          "details": {
+            "project_id": 1.0,
+            "project_name": 1.0,
+            "department": 1.0,
+            "status": 1.0,
+            "start_date": 0.87,
+            "end_date": 0.428,
+            "budget": 0.936,
+            "actual_cost": 0.88,
+            "project_manager_id": 1.0,
+            "priority": 1.0,
+            "region": 1.0
+          },
+          "failed_columns": [
+            "start_date",
+            "end_date",
+            "actual_cost"
+          ]
+        },
+        "uniqueness": {
+          "status": "PASS",
+          "details": "project_id: 500 unique / 500 total; duplicate_rows=0; null_pk_rows=0"
+        },
+        "validity_numeric": {
+          "status": "PASS",
+          "details": {
+            "budget": {
+              "min": 0,
+              "max": 10000000,
+              "invalid_type_count": 0,
+              "below_min_count": 0,
+              "above_max_count": 0
+            },
+            "actual_cost": {
+              "min": 0,
+              "max": 10000000,
+              "invalid_type_count": 0,
+              "below_min_count": 0,
+              "above_max_count": 0
+            }
+          }
+        },
+        "validity_date": {
+          "status": "PASS",
+          "details": {
+            "start_date": {
+              "allow_future": false,
+              "invalid_date_count": 0,
+              "future_count": 0,
+              "min_date": "2022-01-04",
+              "max_date": "2025-02-28"
+            },
+            "end_date": {
+              "allow_future": true,
+              "invalid_date_count": 0,
+              "future_count": 0,
+              "min_date": "2022-04-29",
+              "max_date": "2026-08-07"
+            }
+          }
+        },
+        "consistency": {
+          "status": "PASS",
+          "details": [
+            {
+              "rule": "start_date before end_date",
+              "violation_count": 0
+            },
+            {
+              "rule": "budget >= 0",
+              "violation_count": 0
+            },
+            {
+              "rule": "actual_cost >= 0",
+              "violation_count": 0
+            }
+          ]
+        },
+        "referential_integrity": {
+          "status": "PASS",
+          "details": {
+            "project_manager_id": {
+              "reference": "employees.employee_id",
+              "checked_values": 500,
+              "invalid_count": 0,
+              "invalid_examples": []
+            }
+          }
+        },
+        "distribution": {
+          "status": "FAIL",
+          "details": {
+            "department": {
+              "top_value": "HR",
+              "top_count": 49,
+              "top_share": 0.098,
+              "threshold": 0.3,
+              "is_dominated": false
+            },
+            "status": {
+              "top_value": "Completed",
+              "top_count": 214,
+              "top_share": 0.428,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "priority": {
+              "top_value": "Medium",
+              "top_count": 213,
+              "top_share": 0.426,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "region": {
+              "top_value": "Abu Dhabi",
+              "top_count": 220,
+              "top_share": 0.44,
+              "threshold": 0.3,
+              "is_dominated": true
+            }
+          }
+        },
+        "outliers": {
+          "status": "FAIL",
+          "details": {
+            "budget": {
+              "mean": 564636.75,
+              "std": 604768.16,
+              "z_threshold": 3,
+              "outlier_count": 0,
+              "outlier_examples": []
+            },
+            "actual_cost": {
+              "mean": 515605.47,
+              "std": 606864.36,
+              "z_threshold": 3,
+              "outlier_count": 2,
+              "outlier_examples": [
+                2381174.0,
+                2381747.0
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dataset_name": "employees",
+      "checks_run": 8,
+      "checks_passed": 3,
+      "checks_failed": 5,
+      "results": {
+        "completeness": {
+          "status": "PASS",
+          "details": {
+            "employee_id": 1.0,
+            "full_name": 1.0,
+            "email": 0.99,
+            "department": 1.0,
+            "role": 1.0,
+            "level": 1.0,
+            "hire_date": 1.0,
+            "salary": 1.0,
+            "manager_id": 1.0,
+            "region": 1.0,
+            "status": 1.0,
+            "years_experience": 1.0
+          },
+          "failed_columns": []
+        },
+        "uniqueness": {
+          "status": "PASS",
+          "details": "employee_id: 1000 unique / 1000 total; duplicate_rows=0; null_pk_rows=0"
+        },
+        "validity_numeric": {
+          "status": "FAIL",
+          "details": {
+            "salary": {
+              "min": 10000,
+              "max": 100000,
+              "invalid_type_count": 0,
+              "below_min_count": 0,
+              "above_max_count": 0
+            },
+            "years_experience": {
+              "min": 0,
+              "max": 50,
+              "invalid_type_count": 0,
+              "below_min_count": 5,
+              "above_max_count": 0
+            }
+          }
+        },
+        "validity_date": {
+          "status": "FAIL",
+          "details": {
+            "hire_date": {
+              "allow_future": false,
+              "invalid_date_count": 8,
+              "future_count": 0,
+              "min_date": "2000-02-15",
+              "max_date": "2024-09-28"
+            }
+          }
+        },
+        "consistency": {
+          "status": "FAIL",
+          "details": [
+            {
+              "rule": "salary >= 0",
+              "violation_count": 0
+            },
+            {
+              "rule": "years_experience >= 0",
+              "violation_count": 5
+            },
+            {
+              "rule": "role aligns with level",
+              "violation_count": 137,
+              "examples": [
+                {
+                  "role": "Senior Data Engineer",
+                  "level": "Mid",
+                  "allowed_levels": [
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Senior Data Engineer",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Product Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Account Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "IT Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "referential_integrity": {
+          "status": "PASS",
+          "details": {
+            "manager_id": {
+              "reference": "employees.employee_id",
+              "checked_values": 995,
+              "invalid_count": 0,
+              "invalid_examples": []
+            }
+          }
+        },
+        "distribution": {
+          "status": "FAIL",
+          "details": {
+            "department": {
+              "top_value": "Sales",
+              "top_count": 98,
+              "top_share": 0.098,
+              "threshold": 0.3,
+              "is_dominated": false
+            },
+            "level": {
+              "top_value": "Mid",
+              "top_count": 366,
+              "top_share": 0.366,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "region": {
+              "top_value": "Abu Dhabi",
+              "top_count": 434,
+              "top_share": 0.434,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "status": {
+              "top_value": "Active",
+              "top_count": 960,
+              "top_share": 0.96,
+              "threshold": 0.3,
+              "is_dominated": true
+            }
+          }
+        },
+        "outliers": {
+          "status": "FAIL",
+          "details": {
+            "salary": {
+              "mean": 26461.53,
+              "std": 11291.4,
+              "z_threshold": 3,
+              "outlier_count": 17,
+              "outlier_examples": [
+                64478,
+                67841,
+                67180,
+                63626,
+                62270,
+                67168,
+                69078,
+                62533,
+                76507,
+                62750
+              ]
+            },
+            "years_experience": {
+              "mean": 6.26,
+              "std": 4.67,
+              "z_threshold": 3,
+              "outlier_count": 13,
+              "outlier_examples": [
+                23,
+                22,
+                23,
+                24,
+                25,
+                24,
+                22,
+                24,
+                21,
+                23
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dataset_name": "transactions",
+      "checks_run": 9,
+      "checks_passed": 7,
+      "checks_failed": 2,
+      "results": {
+        "completeness": {
+          "status": "PASS",
+          "details": {
+            "transaction_id": 1.0,
+            "project_id": 1.0,
+            "vendor_id": 1.0,
+            "vendor_name": 1.0,
+            "category": 1.0,
+            "amount": 0.9852,
+            "currency": 1.0,
+            "transaction_date": 1.0,
+            "approved_by": 0.9511,
+            "payment_status": 1.0,
+            "invoice_ref": 1.0,
+            "notes": 0.785
+          },
+          "failed_columns": []
+        },
+        "uniqueness": {
+          "status": "PASS",
+          "details": "transaction_id: 50000 unique / 50000 total; duplicate_rows=0; null_pk_rows=0"
+        },
+        "validity_numeric": {
+          "status": "PASS",
+          "details": {
+            "amount": {
+              "min": 0,
+              "max": 1000000,
+              "invalid_type_count": 0,
+              "below_min_count": 0,
+              "above_max_count": 0
+            }
+          }
+        },
+        "validity_date": {
+          "status": "PASS",
+          "details": {
+            "transaction_date": {
+              "allow_future": false,
+              "invalid_date_count": 0,
+              "future_count": 0,
+              "min_date": "2022-01-06",
+              "max_date": "2026-08-04"
+            }
+          }
+        },
+        "consistency": {
+          "status": "PASS",
+          "details": [
+            {
+              "rule": "amount >= 0",
+              "violation_count": 0
+            }
+          ]
+        },
+        "referential_integrity": {
+          "status": "PASS",
+          "details": {
+            "project_id": {
+              "reference": "projects.project_id",
+              "checked_values": 50000,
+              "invalid_count": 0,
+              "invalid_examples": []
+            },
+            "approved_by": {
+              "reference": "employees.employee_id",
+              "checked_values": 47556,
+              "invalid_count": 0,
+              "invalid_examples": []
+            }
+          }
+        },
+        "distribution": {
+          "status": "FAIL",
+          "details": {
+            "currency": {
+              "top_value": "AED",
+              "top_count": 50000,
+              "top_share": 1.0,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "payment_status": {
+              "top_value": "Paid",
+              "top_count": 37562,
+              "top_share": 0.7512,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "category": {
+              "top_value": "Software",
+              "top_count": 10161,
+              "top_share": 0.2032,
+              "threshold": 0.3,
+              "is_dominated": false
+            }
+          }
+        },
+        "freshness": {
+          "status": "PASS",
+          "details": {
+            "column": "transaction_date",
+            "max_date": "2026-08-04",
+            "as_of_date": "2026-08-24",
+            "age_days": 20,
+            "max_age_days": 30
+          }
+        },
+        "outliers": {
+          "status": "FAIL",
+          "details": {
+            "amount": {
+              "mean": 62848.38,
+              "std": 118165.66,
+              "z_threshold": 3,
+              "outlier_count": 1593,
+              "outlier_examples": [
+                767323.0,
+                607104.0,
+                605824.0,
+                435715.0,
+                429668.0,
+                422839.0,
+                641933.0,
+                417954.0,
+                662396.0,
+                420012.0
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dataset_name": "employees_salary_history",
+      "checks_run": 8,
+      "checks_passed": 3,
+      "checks_failed": 5,
+      "results": {
+        "completeness": {
+          "status": "FAIL",
+          "details": {
+            "employee_id": 1.0,
+            "previous_salary": 0.6747,
+            "new_salary": 1.0,
+            "previous_role": 0.6747,
+            "new_role": 1.0,
+            "previous_level": 0.6747,
+            "new_level": 1.0,
+            "effective_date": 1.0,
+            "change_type": 1.0,
+            "change_reason": 1.0
+          },
+          "failed_columns": [
+            "previous_salary",
+            "previous_role",
+            "previous_level"
+          ]
+        },
+        "uniqueness": {
+          "status": "PASS",
+          "details": "employee_id, effective_date, change_type, new_salary: 1826 unique / 1826 total; duplicate_rows=0; null_pk_rows=0"
+        },
+        "validity_numeric": {
+          "status": "FAIL",
+          "details": {
+            "previous_salary": {
+              "min": 10000,
+              "max": 100000,
+              "invalid_type_count": 0,
+              "below_min_count": 100,
+              "above_max_count": 0
+            },
+            "new_salary": {
+              "min": 10000,
+              "max": 100000,
+              "invalid_type_count": 0,
+              "below_min_count": 100,
+              "above_max_count": 0
+            }
+          }
+        },
+        "validity_date": {
+          "status": "PASS",
+          "details": {
+            "effective_date": {
+              "allow_future": false,
+              "invalid_date_count": 0,
+              "future_count": 0,
+              "min_date": "2000-02-15",
+              "max_date": "2025-06-30"
+            }
+          }
+        },
+        "consistency": {
+          "status": "FAIL",
+          "details": [
+            {
+              "rule": "previous_salary >= 0",
+              "violation_count": 0
+            },
+            {
+              "rule": "new_salary >= 0",
+              "violation_count": 0
+            },
+            {
+              "rule": "previous_role aligns with previous_level",
+              "violation_count": 325,
+              "examples": [
+                {
+                  "role": "Senior Data Engineer",
+                  "level": "Mid",
+                  "allowed_levels": [
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Director",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Director"
+                  ]
+                }
+              ]
+            },
+            {
+              "rule": "new_role aligns with new_level",
+              "violation_count": 406,
+              "examples": [
+                {
+                  "role": "Senior Data Engineer",
+                  "level": "Mid",
+                  "allowed_levels": [
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Senior Data Engineer",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                },
+                {
+                  "role": "Finance Manager",
+                  "level": "Junior",
+                  "allowed_levels": [
+                    "Mid",
+                    "Senior",
+                    "Lead",
+                    "Director"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "referential_integrity": {
+          "status": "PASS",
+          "details": {
+            "employee_id": {
+              "reference": "employees.employee_id",
+              "checked_values": 1826,
+              "invalid_count": 0,
+              "invalid_examples": []
+            }
+          }
+        },
+        "distribution": {
+          "status": "FAIL",
+          "details": {
+            "change_type": {
+              "top_value": "Annual Raise",
+              "top_count": 638,
+              "top_share": 0.3494,
+              "threshold": 0.3,
+              "is_dominated": true
+            },
+            "new_level": {
+              "top_value": "Junior",
+              "top_count": 946,
+              "top_share": 0.5181,
+              "threshold": 0.3,
+              "is_dominated": true
+            }
+          }
+        },
+        "outliers": {
+          "status": "FAIL",
+          "details": {
+            "previous_salary": {
+              "mean": 18758.83,
+              "std": 8292.77,
+              "z_threshold": 3,
+              "outlier_count": 17,
+              "outlier_examples": [
+                44568.0,
+                48860.0,
+                56773.0,
+                64294.0,
+                45854.0,
+                47557.0,
+                45186.0,
+                44623.0,
+                50829.0,
+                43986.0
+              ]
+            },
+            "new_salary": {
+              "mean": 21263.38,
+              "std": 9994.85,
+              "z_threshold": 3,
+              "outlier_count": 22,
+              "outlier_examples": [
+                53484,
+                59891,
+                56773,
+                64294,
+                71212,
+                69078,
+                64478,
+                64777,
+                59572,
+                62516
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

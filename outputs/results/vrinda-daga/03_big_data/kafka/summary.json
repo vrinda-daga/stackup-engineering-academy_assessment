@@ -1,0 +1,25 @@
+{
+  "run_at": "2026-08-24T15:20:36.812350+00:00",
+  "source_topic": "presight.project.events",
+  "critical_escalation_topic": "presight.escalations.critical",
+  "total_messages_consumed": 99996,
+  "event_counts": {
+    "approval_granted": 1482,
+    "approval_rejected": 291,
+    "approval_requested": 1962,
+    "budget_updated": 2978,
+    "comment_added": 3903,
+    "document_uploaded": 6149,
+    "escalation_raised": 1969,
+    "escalation_resolved": 1933,
+    "login": 25071,
+    "logout": 19800,
+    "meeting_scheduled": 4070,
+    "milestone_reached": 181,
+    "project_status_change": 7999,
+    "task_completed": 10055,
+    "task_created": 12153
+  },
+  "critical_escalations_forwarded": 192,
+  "throughput_messages_per_second": 5500.87
+}

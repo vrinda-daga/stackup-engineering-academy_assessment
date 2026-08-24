@@ -1,0 +1,10 @@
+outputs/
+.git/
+__pycache__/
+*.pyc
+venv/
+
+.pytest_cache/
+*.db
+*.sqlite
+*.log

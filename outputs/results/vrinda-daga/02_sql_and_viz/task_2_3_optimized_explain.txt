@@ -1,0 +1,248 @@
+┌─────────────────────────────────────┐
+│┌───────────────────────────────────┐│
+││    Query Profiling Information    ││
+│└───────────────────────────────────┘│
+└─────────────────────────────────────┘
+EXPLAIN ANALYZE  WITH pending_avg AS (     SELECT AVG(amount) AS avg_pending_amount     FROM fact_transactions     WHERE payment_status = 'Pending' ) SELECT     e.full_name,     e.department,     e.role,     p.project_name,     p.status,     p.budget,     p.actual_cost,     t.amount,     t.category,     t.payment_status,     d.full_date AS transaction_date FROM fact_transactions t JOIN dim_project p     ON p.project_key = t.project_key JOIN dim_employee e     ON e.employee_id = p.project_manager_id     AND e.is_current = TRUE JOIN dim_date d     ON d.date_key = t.date_key CROSS JOIN pending_avg a WHERE p.status NOT IN ('Completed', 'On Hold')   AND t.payment_status = 'Pending'   AND t.amount > a.avg_pending_amount ORDER BY     e.department,     t.amount DESC 
+┌────────────────────────────────────────────────┐
+│┌──────────────────────────────────────────────┐│
+││              Total Time: 0.0094s             ││
+│└──────────────────────────────────────────────┘│
+└────────────────────────────────────────────────┘
+┌───────────────────────────┐
+│           QUERY           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│      EXPLAIN_ANALYZE      │
+│    ────────────────────   │
+│                           │
+│           0 rows          │
+│           0.00s           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│             #0            │
+│__internal_decompress_strin│
+│           g(#1)           │
+│             #2            │
+│             #3            │
+│__internal_decompress_strin│
+│           g(#4)           │
+│             #5            │
+│             #6            │
+│             #7            │
+│             #8            │
+│__internal_decompress_strin│
+│           g(#9)           │
+│            #10            │
+│                           │
+│                           │
+│                           │
+│          923 rows         │
+│           0.00s           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│      e.department ASC     │
+│       t.amount DESC       │
+│                           │
+│                           │
+│                           │
+│          923 rows         │
+│           0.00s           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│             #0            │
+│__internal_compress_string_│
+│        uhugeint(#1)       │
+│             #2            │
+│             #3            │
+│__internal_compress_string_│
+│        uhugeint(#4)       │
+│             #5            │
+│             #6            │
+│             #7            │
+│             #8            │
+│__internal_compress_string_│
+│        uhugeint(#9)       │
+│            #10            │
+│                           │
+│                           │
+│                           │
+│          923 rows         │
+│           0.00s           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         full_name         │
+│         department        │
+│            role           │
+│        project_name       │
+│           status          │
+│           budget          │
+│        actual_cost        │
+│           amount          │
+│          category         │
+│       payment_status      │
+│      transaction_date     │
+│                           │
+│                           │
+│                           │
+│          923 rows         │
+│           0.00s           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        │
+│    date_key = date_key    ├──────────────┐
+│                           │              │
+│                           │              │
+│                           │              │
+│          923 rows         │              │
+│           0.00s           │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         TABLE_SCAN        ││         HASH_JOIN         │
+│    ────────────────────   ││    ────────────────────   │
+│           Table:          ││      Join Type: INNER     │
+│    memory.main.dim_date   ││                           │
+│                           ││        Conditions:        │
+│   Type: Sequential Scan   ││       employee_id =       │
+│                           ││     project_manager_id    │
+│        Projections:       ││                           │
+│          date_key         ││                           │
+│         full_date         ││                           │
+│                           ││                           │
+│          Filters:         ││           0.00s           │
+│   date_key>=20220106 AND  ││                           │
+│     date_key<=20260804    ││                           ├──────────────┐
+│                           ││                           │              │
+│      Dynamic Filters:     ││                           │              │
+│    optional: date_key>    ││                           │              │
+│  =20220207 AND optional:  ││                           │              │
+│   date_key<=20250630 AND  ││                           │              │
+│  optional: date_key IN BF ││                           │              │
+│         (date_key)        ││                           │              │
+│                           ││                           │              │
+│                           ││                           │              │
+│                           ││                           │              │
+│          559 rows         ││          923 rows         │              │
+│           0.00s           ││          (0.00s)          │              │
+└───────────────────────────┘└─────────────┬─────────────┘              │
+                             ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                             │         TABLE_SCAN        ││         HASH_JOIN         │
+                             │    ────────────────────   ││    ────────────────────   │
+                             │           Table:          ││      Join Type: INNER     │
+                             │  memory.main.dim_employee ││                           │
+                             │                           ││        Conditions:        │
+                             │   Type: Sequential Scan   ││ project_key = project_key │
+                             │                           ││                           │
+                             │        Projections:       ││                           │
+                             │        employee_id        ││                           │
+                             │         full_name         ││                           │
+                             │         department        ││           0.00s           │
+                             │            role           ││                           │
+                             │                           ││                           ├──────────────┐
+                             │          Filters:         ││                           │              │
+                             │      is_current=true      ││                           │              │
+                             │                           ││                           │              │
+                             │      Dynamic Filters:     ││                           │              │
+                             │  optional: employee_id>=  ││                           │              │
+                             │  'EMP0002' AND optional:  ││                           │              │
+                             │   employee_id<='EMP0991'  ││                           │              │
+                             │                           ││                           │              │
+                             │                           ││                           │              │
+                             │                           ││                           │              │
+                             │          990 rows         ││          923 rows         │              │
+                             │           0.00s           ││          (0.00s)          │              │
+                             └───────────────────────────┘└─────────────┬─────────────┘              │
+                                                          ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                                                          │         TABLE_SCAN        ││      NESTED_LOOP_JOIN     │
+                                                          │    ────────────────────   ││    ────────────────────   │
+                                                          │           Table:          ││      Join Type: INNER     │
+                                                          │  memory.main.dim_project  ││                           │
+                                                          │                           ││        Conditions:        │
+                                                          │   Type: Sequential Scan   ││  CAST(amount AS DOUBLE) > │
+                                                          │                           ││     avg_pending_amount    │
+                                                          │        Projections:       ││                           │
+                                                          │        project_key        ││                           │
+                                                          │     project_manager_id    ││                           │
+                                                          │           status          ││                           │
+                                                          │        project_name       ││           0.00s           │
+                                                          │           budget          ││                           │
+                                                          │        actual_cost        ││                           │
+                                                          │                           ││                           ├──────────────┐
+                                                          │          Filters:         ││                           │              │
+                                                          │ (status NOT IN ('Completed││                           │              │
+                                                          │       ', 'On Hold'))      ││                           │              │
+                                                          │                           ││                           │              │
+                                                          │      Dynamic Filters:     ││                           │              │
+                                                          │  optional: project_key>=1 ││                           │              │
+                                                          │  AND optional: project_key││                           │              │
+                                                          │           <=500           ││                           │              │
+                                                          │                           ││                           │              │
+                                                          │                           ││                           │              │
+                                                          │                           ││                           │              │
+                                                          │          239 rows         ││         2,127 rows        │              │
+                                                          │           0.00s           ││          (0.00s)          │              │
+                                                          └───────────────────────────┘└─────────────┬─────────────┘              │
+                                                                                       ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                                                                                       │         TABLE_SCAN        ││    UNGROUPED_AGGREGATE    │
+                                                                                       │    ────────────────────   ││    ────────────────────   │
+                                                                                       │           Table:          ││    Aggregates: avg(#0)    │
+                                                                                       │        memory.main        ││                           │
+                                                                                       │     .fact_transactions    ││                           │
+                                                                                       │                           ││                           │
+                                                                                       │   Type: Sequential Scan   ││                           │
+                                                                                       │                           ││           0.00s           │
+                                                                                       │        Projections:       ││                           │
+                                                                                       │        project_key        ││                           │
+                                                                                       │          date_key         ││                           │
+                                                                                       │       payment_status      ││                           │
+                                                                                       │           amount          ││                           │
+                                                                                       │          category         ││                           │
+                                                                                       │                           ││                           │
+                                                                                       │          Filters:         ││                           │
+                                                                                       │  payment_status='Pending' ││                           │
+                                                                                       │                           ││                           │
+                                                                                       │                           ││                           │
+                                                                                       │                           ││                           │
+                                                                                       │         8,927 rows        ││           1 row           │
+                                                                                       │           0.00s           ││          (0.00s)          │
+                                                                                       └───────────────────────────┘└─────────────┬─────────────┘
+                                                                                                                    ┌─────────────┴─────────────┐
+                                                                                                                    │         PROJECTION        │
+                                                                                                                    │    ────────────────────   │
+                                                                                                                    │           amount          │
+                                                                                                                    │                           │
+                                                                                                                    │                           │
+                                                                                                                    │                           │
+                                                                                                                    │         8,927 rows        │
+                                                                                                                    │           0.00s           │
+                                                                                                                    └─────────────┬─────────────┘
+                                                                                                                    ┌─────────────┴─────────────┐
+                                                                                                                    │         TABLE_SCAN        │
+                                                                                                                    │    ────────────────────   │
+                                                                                                                    │           Table:          │
+                                                                                                                    │        memory.main        │
+                                                                                                                    │     .fact_transactions    │
+                                                                                                                    │                           │
+                                                                                                                    │   Type: Sequential Scan   │
+                                                                                                                    │    Projections: amount    │
+                                                                                                                    │                           │
+                                                                                                                    │          Filters:         │
+                                                                                                                    │  payment_status='Pending' │
+                                                                                                                    │                           │
+                                                                                                                    │                           │
+                                                                                                                    │                           │
+                                                                                                                    │         8,927 rows        │
+                                                                                                                    │           0.00s           │
+                                                                                                                    └───────────────────────────┘

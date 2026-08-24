@@ -1,0 +1,13 @@
+services:
+  etl:
+    build:
+      context: .
+      dockerfile: solutions/submissions/vrinda-daga/04_infrastructure/Dockerfile
+    image: presight-etl
+    environment:
+      DATA_DIR: /app/datasets
+      OUTPUT_DIR: /app/outputs/results/vrinda-daga/04_infrastructure/docker_etl
+    volumes:
+      - ./outputs:/app/outputs
+    profiles:
+      - etl
